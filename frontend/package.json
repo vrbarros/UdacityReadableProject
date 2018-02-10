@@ -5,6 +5,10 @@
   "dependencies": {
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0",
+    "material-ui": "^0.20.0",
+    "prettier": "^1.10.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -15,14 +19,25 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-tap-event-plugin": "^3.0.2",
     "react-throttle": "^0.3.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "precommit": "lint-staged",
+    "start": "cross-env NODE_PATH=src react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.3"
   }
 }
