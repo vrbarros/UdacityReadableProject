@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class CategoryList extends Component {
-  render() {}
-}
+const CategoryList = props => <div />;
 
 export default CategoryList;

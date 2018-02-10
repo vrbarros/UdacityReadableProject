@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class PostComments extends Component {
-  render() {}
-}
+const PostComments = props => <div />;
 
 export default PostComments;

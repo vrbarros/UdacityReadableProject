@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class PostDetails extends Component {
-  render() {}
-}
+const PostDetails = props => <div />;
 
 export default PostDetails;

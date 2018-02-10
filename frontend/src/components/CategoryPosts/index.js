@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class CategoryPosts extends Component {
-  render() {}
-}
+const CategoryPosts = props => <div />;
 
 export default CategoryPosts;

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class PostList extends Component {
-  render() {}
-}
+const PostList = props => <div />;
 
 export default PostList;

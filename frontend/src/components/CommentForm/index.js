@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-class CommentForm extends Component {
-  render() {}
-}
+const CommentForm = props => <div />;
 
 export default CommentForm;
