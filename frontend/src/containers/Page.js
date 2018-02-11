@@ -4,8 +4,21 @@ import Grid from 'material-ui/Grid';
 import CategoryList from 'components/CategoryList';
 import PostCard from 'components/PostCard';
 import SortSelect from 'components/SortSelect';
+import PostForm from 'components/PostForm';
 
 class Page extends Component {
+  state = {
+    postForm: false
+  };
+
+  handlePostFormOpen = () => {
+    this.setState({ postForm: true });
+  };
+
+  handlePostFormClose = () => {
+    this.setState({ postForm: false });
+  };
+
   render() {
     const dataCategories = {
       categories: [
@@ -52,6 +65,7 @@ class Page extends Component {
     };
 
     const { category } = this.props.match.params;
+    const { postForm } = this.state;
 
     const posts = Object.entries(dataPosts.posts).map(function([key, value]) {
       var post = <PostCard key={key} content={value} />;
@@ -68,7 +82,12 @@ class Page extends Component {
 
     return (
       <div>
-        <Header />
+        <Header handlePostFormOpen={this.handlePostFormOpen} />
+        <PostForm
+          open={postForm}
+          onClose={this.handlePostFormClose}
+          title="New post"
+        />
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>
