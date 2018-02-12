@@ -5,7 +5,6 @@ import CategoryList from 'components/CategoryList';
 import PostDetails from 'components/PostDetails';
 import CommentCard from 'components/CommentCard';
 import CommentForm from 'components/CommentForm';
-import Divider from 'material-ui/Divider';
 import CommentActions from 'components/CommentActions';
 
 class Post extends Component {
@@ -64,7 +63,7 @@ class Post extends Component {
       }
     };
 
-    const { category, id } = this.props.match.params;
+    // const { category, id } = this.props.match.params;
 
     const comments = Object.entries(dataComments.comments).map(function([
       key,

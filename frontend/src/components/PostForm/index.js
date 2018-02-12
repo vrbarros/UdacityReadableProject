@@ -6,7 +6,7 @@ import Grid from 'material-ui/Grid';
 import TextField from 'material-ui/TextField';
 import Select from 'material-ui/Select';
 import { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import Send from 'material-ui-icons/Send';
 import Typography from 'material-ui/Typography';
