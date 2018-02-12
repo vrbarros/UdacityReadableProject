@@ -8,7 +8,6 @@ import DateRange from 'material-ui-icons/DateRange';
 import Label from 'material-ui-icons/Label';
 import Grid from 'material-ui/Grid';
 import Voter from 'components/Voter';
-import PostActions from 'components/PostActions';
 
 const Timestamp = require('react-timestamp');
 
@@ -24,7 +23,7 @@ const styles = theme => ({
 });
 
 function PostCard(props) {
-  const { classes, content } = props;
+  const { classes, content, actions } = props;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -67,12 +66,7 @@ function PostCard(props) {
         </Grid>
         <Grid item xs={12} sm={2}>
           <Grid container alignItems="center" direction="row" justify="center">
-            <PostActions
-              viewVisible={true}
-              editVisible={true}
-              deleteVisible={true}
-              viewHref={'/' + content.category + '/' + content.id}
-            />
+            {actions}
           </Grid>
         </Grid>
       </Grid>
@@ -81,7 +75,8 @@ function PostCard(props) {
 }
 
 PostCard.propTypes = {
-  content: PropTypes.object.isRequired
+  content: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(PostCard);

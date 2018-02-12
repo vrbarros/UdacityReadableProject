@@ -24,12 +24,12 @@ const styles = theme => ({
 });
 
 function CommentCard(props) {
-  const { classes, content } = props;
+  const { classes, content, actions } = props;
 
   return (
     <Paper className={classes.root} elevation={4}>
       <Grid container>
-        <Grid item xs={12} sm={9}>
+        <Grid item xs={12} sm={11}>
           <Typography variant="caption">
             <Grid container alignItems="center" alignContent="center">
               <Grid item>
@@ -40,8 +40,6 @@ function CommentCard(props) {
               </Grid>
             </Grid>
           </Typography>
-          <br />
-          <Typography variant="headline">{content.title}</Typography>
           <br />
           <Typography variant="body1" component="p">
             {content.body}
@@ -55,14 +53,7 @@ function CommentCard(props) {
               <Grid item>{content.author}</Grid>
             </Grid>
           </Typography>
-        </Grid>
-        <Grid item xs={12} sm={2}>
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            justify="center"
-          />
+          {actions}
         </Grid>
         <Grid item xs={12} sm={1}>
           <center>

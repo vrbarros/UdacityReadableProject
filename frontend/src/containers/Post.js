@@ -6,6 +6,7 @@ import PostDetails from 'components/PostDetails';
 import CommentCard from 'components/CommentCard';
 import CommentForm from 'components/CommentForm';
 import Divider from 'material-ui/Divider';
+import CommentActions from 'components/CommentActions';
 
 class Post extends Component {
   render() {
@@ -69,7 +70,8 @@ class Post extends Component {
       key,
       value
     ]) {
-      var post = <CommentCard key={key} content={value} />;
+      let actions = <CommentActions editVisible={true} deleteVisible={true} />;
+      let post = <CommentCard key={key} content={value} actions={actions} />;
       return post;
     });
 

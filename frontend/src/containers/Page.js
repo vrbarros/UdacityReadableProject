@@ -5,6 +5,7 @@ import CategoryList from 'components/CategoryList';
 import PostCard from 'components/PostCard';
 import SortSelect from 'components/SortSelect';
 import PostForm from 'components/PostForm';
+import PostActions from 'components/PostActions';
 
 class Page extends Component {
   state = {
@@ -36,6 +37,7 @@ class Page extends Component {
         }
       ]
     };
+
     const dataPosts = {
       posts: {
         '8xf0y6ziyjabvozdd253nd': {
@@ -68,7 +70,16 @@ class Page extends Component {
     const { postForm } = this.state;
 
     const posts = Object.entries(dataPosts.posts).map(function([key, value]) {
-      var post = <PostCard key={key} content={value} />;
+      let actions = (
+        <PostActions
+          viewVisible={true}
+          editVisible={true}
+          deleteVisible={true}
+          viewHref={'/' + value.category + '/' + value.id}
+        />
+      );
+      let post = <PostCard key={key} content={value} actions={actions} />;
+
       if (category) {
         if (category === value.category) {
           return post;
