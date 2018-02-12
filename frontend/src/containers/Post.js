@@ -4,6 +4,8 @@ import Grid from 'material-ui/Grid';
 import CategoryList from 'components/CategoryList';
 import PostDetails from 'components/PostDetails';
 import CommentCard from 'components/CommentCard';
+import CommentForm from 'components/CommentForm';
+import Divider from 'material-ui/Divider';
 
 class Post extends Component {
   render() {
@@ -82,6 +84,7 @@ class Post extends Component {
             <Grid item xs={12} sm={10}>
               <PostDetails content={dataPosts.post} />
               {comments}
+              <CommentForm />
             </Grid>
           </Grid>
         </main>

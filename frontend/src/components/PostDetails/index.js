@@ -7,7 +7,6 @@ import PersonPin from 'material-ui-icons/PersonPin';
 import DateRange from 'material-ui-icons/DateRange';
 import Label from 'material-ui-icons/Label';
 import Grid from 'material-ui/Grid';
-
 import Voter from 'components/Voter';
 import PostActions from 'components/PostActions';
 
