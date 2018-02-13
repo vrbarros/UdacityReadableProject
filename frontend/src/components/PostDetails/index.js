@@ -27,6 +27,7 @@ const styles = theme => ({
 
 function PostDetails(props) {
   const { classes, content } = props;
+  const { timestamp, title, author, category, body, voteScore } = content;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -43,31 +44,31 @@ function PostDetails(props) {
                 <DateRange />
               </Grid>
               <Grid item>
-                <Timestamp time={content.timestamp} format="full" includeDay />
+                <Timestamp time={timestamp} format="full" includeDay />
               </Grid>
             </Grid>
           </Typography>
           <br />
-          <Typography variant="headline">{content.title}</Typography>
+          <Typography variant="headline">{title}</Typography>
           <br />
           <Typography variant="subheading">
             <Grid container alignItems="center" alignContent="center">
               <Grid item>
                 <PersonPin />
               </Grid>
-              <Grid item>{content.author}</Grid>
+              <Grid item>{author}</Grid>
               <Grid item>
                 <Label />
               </Grid>
-              <Grid item>{content.category}</Grid>
+              <Grid item>{category}</Grid>
             </Grid>
           </Typography>
           <br />
           <Typography variant="body1" component="p">
-            {content.body}
+            {body}
           </Typography>
           <br />
-          <Voter score={content.voteScore} />
+          {voteScore ? <Voter score={voteScore} /> : false}
         </Grid>
       </Grid>
     </Paper>

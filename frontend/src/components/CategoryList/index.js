@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Label from 'material-ui-icons/Label';
@@ -10,17 +9,20 @@ const styles = theme => ({});
 
 function CategoryList(props) {
   const { items } = props;
+  let categories;
 
-  const categories = items.categories.map(function(item, i) {
-    return (
-      <ListItem component={Link} to={item.path} key={'cat-' + i} button>
-        <ListItemIcon>
-          <Label />
-        </ListItemIcon>
-        <ListItemText primary={item.name} />
-      </ListItem>
-    );
-  });
+  if (items.categories) {
+    categories = items.categories.map(function(item, i) {
+      return (
+        <ListItem component={Link} to={'/' + item.path} key={'cat-' + i} button>
+          <ListItemIcon>
+            <Label />
+          </ListItemIcon>
+          <ListItemText primary={item.name} />
+        </ListItem>
+      );
+    });
+  }
 
   return (
     <div>
@@ -36,9 +38,5 @@ function CategoryList(props) {
     </div>
   );
 }
-
-CategoryList.propTypes = {
-  items: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(CategoryList);

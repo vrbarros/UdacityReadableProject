@@ -11,7 +11,7 @@ const styles = theme => ({
 
 class CommentActions extends React.Component {
   render() {
-    const { classes, editVisible, deleteVisible } = this.props;
+    const { classes, editVisible, deleteVisible, handleDelete } = this.props;
 
     return (
       <center>
@@ -21,7 +21,11 @@ class CommentActions extends React.Component {
           </Button>
         )}
         {deleteVisible && (
-          <Button color="secondary" className={classes.button}>
+          <Button
+            color="secondary"
+            className={classes.button}
+            onClick={handleDelete}
+          >
             Delete
           </Button>
         )}

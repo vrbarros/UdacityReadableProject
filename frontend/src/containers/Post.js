@@ -6,73 +6,65 @@ import PostDetails from 'components/PostDetails';
 import CommentCard from 'components/CommentCard';
 import CommentForm from 'components/CommentForm';
 import CommentActions from 'components/CommentActions';
+import { connect } from 'react-redux';
+import { fetchPost, fetchComments, removeComment } from 'redux/actions/posts';
+import { fetchCategories } from 'redux/actions/categories';
+import ReactLoading from 'react-loading';
 
 class Post extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.deleteComments = this.deleteComment.bind(this);
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    const { id } = this.props.match.params;
+
+    dispatch(fetchCategories());
+    dispatch(fetchPost(id));
+    dispatch(fetchComments(id));
+  }
+
+  deleteComment(comment) {
+    const { dispatch } = this.props;
+    return dispatch(removeComment(comment.id));
+  }
+
   render() {
-    const dataCategories = {
-      categories: [
-        {
-          name: 'react',
-          path: 'react'
-        },
-        {
-          name: 'redux',
-          path: 'redux'
-        },
-        {
-          name: 'udacity',
-          path: 'udacity'
-        }
-      ]
-    };
-    const dataPosts = {
-      post: {
-        id: '8xf0y6ziyjabvozdd253nd',
-        timestamp: 1467166872634,
-        title: 'Udacity is the best place to learn React',
-        body: 'Everyone says so after all.',
-        author: 'thingtwo',
-        category: 'react',
-        voteScore: 6,
-        deleted: false,
-        commentCount: 2
-      }
-    };
-    const dataComments = {
-      comments: {
-        '894tuq4ut84ut8v4t8wun89g': {
-          id: '894tuq4ut84ut8v4t8wun89g',
-          parentId: '8xf0y6ziyjabvozdd253nd',
-          timestamp: 1468166872634,
-          body: 'Hi there! I am a COMMENT.',
-          author: 'thingtwo',
-          voteScore: 6,
-          deleted: false,
-          parentDeleted: false
-        },
-        '8tu4bsun805n8un48ve89': {
-          id: '8tu4bsun805n8un48ve89',
-          parentId: '8xf0y6ziyjabvozdd253nd',
-          timestamp: 1469479767190,
-          body: 'Comments. Are. Cool.',
-          author: 'thingone',
-          voteScore: -5,
-          deleted: false,
-          parentDeleted: false
-        }
-      }
-    };
+    const { postIsFetching, postItems } = this.props.post;
+    const { categoriesIsFetching, categoriesItems } = this.props.categories;
+    const { commentsIsFetching, commentsItems } = this.props.comments;
 
-    // const { category, id } = this.props.match.params;
+    let comments;
 
-    const comments = Object.entries(dataComments.comments).map(function([
-      key,
-      value
-    ]) {
-      let actions = <CommentActions editVisible={true} deleteVisible={true} />;
-      let post = <CommentCard key={key} content={value} actions={actions} />;
-      return post;
-    });
+    const app = this;
+
+    if (!commentsIsFetching) {
+      comments = Object.entries(commentsItems).map(function([key, item]) {
+        let actions = (
+          <CommentActions
+            editVisible={true}
+            deleteVisible={true}
+            handleDelete={() => app.deleteComment(item)}
+          />
+        );
+        let comment = (
+          <CommentCard key={key} content={item} actions={actions} />
+        );
+        return comment;
+      });
+    }
+
+    const loading = (
+      <center>
+        <ReactLoading
+          type="spinningBubbles"
+          color="#C2C2C2"
+          height={150}
+          width={150}
+        />
+      </center>
+    );
 
     return (
       <div>
@@ -80,11 +72,15 @@ class Post extends Component {
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>
-              <CategoryList items={dataCategories} />
+              {categoriesIsFetching ? (
+                loading
+              ) : (
+                <CategoryList items={categoriesItems} />
+              )}
             </Grid>
             <Grid item xs={12} sm={10}>
-              <PostDetails content={dataPosts.post} />
-              {comments}
+              {postIsFetching ? loading : <PostDetails content={postItems} />}
+              {commentsIsFetching ? loading : comments}
               <CommentForm />
             </Grid>
           </Grid>
@@ -94,4 +90,9 @@ class Post extends Component {
   }
 }
 
-export default Post;
+function mapStateToProps(state) {
+  const { post, categories, comments } = state;
+  return { post, categories, comments };
+}
+
+export default connect(mapStateToProps)(Post);
