@@ -12,16 +12,26 @@ const styles = theme => ({
 });
 
 function Voter(props) {
-  const { classes, score } = props;
+  const { classes, score, handleUpVote, handleDownVote } = props;
   return (
     <div>
-      <Button variant="fab" color="primary" className={classes.button}>
+      <Button
+        variant="fab"
+        color="primary"
+        className={classes.button}
+        onClick={handleUpVote}
+      >
         <ThumbUp />
       </Button>
       <Button variant="fab" disabled className={classes.button}>
         {score}
       </Button>
-      <Button variant="fab" color="secondary" className={classes.button}>
+      <Button
+        variant="fab"
+        color="secondary"
+        className={classes.button}
+        onClick={handleDownVote}
+      >
         <ThumbDown />
       </Button>
     </div>

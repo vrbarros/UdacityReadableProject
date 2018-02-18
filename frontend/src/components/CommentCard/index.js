@@ -24,7 +24,7 @@ const styles = theme => ({
 });
 
 function CommentCard(props) {
-  const { classes, content, actions } = props;
+  const { classes, content, actions, handleUpVote, handleDownVote } = props;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -57,7 +57,11 @@ function CommentCard(props) {
         </Grid>
         <Grid item xs={12} sm={1}>
           <center>
-            <Voter score={content.voteScore} />
+            <Voter
+              score={content.voteScore}
+              handleUpVote={handleUpVote}
+              handleDownVote={handleDownVote}
+            />
           </center>
         </Grid>
       </Grid>

@@ -7,7 +7,7 @@ import SortSelect from 'components/SortSelect';
 import PostForm from 'components/PostForm';
 import PostActions from 'components/PostActions';
 import { connect } from 'react-redux';
-import { fetchPosts } from 'redux/actions/posts';
+import { fetchPosts, votingPost } from 'redux/actions/posts';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
@@ -16,10 +16,20 @@ class Page extends Component {
     postForm: false
   };
 
+  constructor(props, context) {
+    super(props, context);
+    this.handleVotePost = this.handleVotePost.bind(this);
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCategories());
     dispatch(fetchPosts());
+  }
+
+  handleVotePost(id, option) {
+    const { dispatch } = this.props;
+    return dispatch(votingPost(id, option));
   }
 
   handlePostFormOpen = () => {
@@ -36,6 +46,8 @@ class Page extends Component {
     const { categoriesIsFetching, categoriesItems } = this.props.categories;
     const { postForm } = this.state;
 
+    const app = this;
+
     let posts = postsItems;
 
     if (posts) {
@@ -48,7 +60,15 @@ class Page extends Component {
             viewHref={'/' + value.category + '/' + value.id}
           />
         );
-        let post = <PostCard key={i} content={value} actions={actions} />;
+        let post = (
+          <PostCard
+            key={i}
+            content={value}
+            actions={actions}
+            handleUpVote={() => app.handleVotePost(value.id, 'upVote')}
+            handleDownVote={() => app.handleVotePost(value.id, 'downVote')}
+          />
+        );
 
         if (category) {
           if (category === value.category) {

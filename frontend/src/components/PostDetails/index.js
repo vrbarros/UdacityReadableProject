@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 
 function PostDetails(props) {
-  const { classes, content } = props;
+  const { classes, content, handleUpVote, handleDownVote } = props;
   const { timestamp, title, author, category, body, voteScore } = content;
 
   return (
@@ -68,7 +68,15 @@ function PostDetails(props) {
             {body}
           </Typography>
           <br />
-          {voteScore ? <Voter score={voteScore} /> : false}
+          {voteScore ? (
+            <Voter
+              score={voteScore}
+              handleUpVote={handleUpVote}
+              handleDownVote={handleDownVote}
+            />
+          ) : (
+            false
+          )}
         </Grid>
       </Grid>
     </Paper>

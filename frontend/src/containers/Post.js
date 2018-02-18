@@ -4,17 +4,25 @@ import Grid from 'material-ui/Grid';
 import CategoryList from 'components/CategoryList';
 import PostDetails from 'components/PostDetails';
 import CommentCard from 'components/CommentCard';
-import CommentForm from 'components/CommentForm';
+import CommentForm from 'containers/CommentForm';
 import CommentActions from 'components/CommentActions';
 import { connect } from 'react-redux';
-import { fetchPost, fetchComments, removeComment } from 'redux/actions/posts';
+import {
+  fetchPost,
+  fetchComments,
+  removingComment,
+  votingComment,
+  votingPost
+} from 'redux/actions/posts';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
 class Post extends Component {
   constructor(props, context) {
     super(props, context);
-    this.deleteComments = this.deleteComment.bind(this);
+    this.deleteComments = this.handleDeleteComment.bind(this);
+    this.handleVotePost = this.handleVotePost.bind(this);
+    this.handleVoteComment = this.handleVoteComment.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -25,15 +33,26 @@ class Post extends Component {
     dispatch(fetchComments(id));
   }
 
-  deleteComment(comment) {
+  handleDeleteComment(index, id) {
     const { dispatch } = this.props;
-    return dispatch(removeComment(comment.id));
+    return dispatch(removingComment(index, id));
+  }
+
+  handleVotePost(id, option) {
+    const { dispatch } = this.props;
+    return dispatch(votingPost(id, option));
+  }
+
+  handleVoteComment(index, comment, option) {
+    const { dispatch } = this.props;
+    return dispatch(votingComment(index, comment.id, option));
   }
 
   render() {
     const { postIsFetching, postItems } = this.props.post;
     const { categoriesIsFetching, categoriesItems } = this.props.categories;
     const { commentsIsFetching, commentsItems } = this.props.comments;
+    const { id } = this.props.match.params;
 
     let comments;
 
@@ -45,11 +64,17 @@ class Post extends Component {
           <CommentActions
             editVisible={true}
             deleteVisible={true}
-            handleDelete={() => app.deleteComment(item)}
+            handleDelete={() => app.handleDeleteComment(key, item.id)}
           />
         );
         let comment = (
-          <CommentCard key={key} content={item} actions={actions} />
+          <CommentCard
+            key={key}
+            content={item}
+            actions={actions}
+            handleUpVote={() => app.handleVoteComment(key, item, 'upVote')}
+            handleDownVote={() => app.handleVoteComment(key, item, 'downVote')}
+          />
         );
         return comment;
       });
@@ -68,7 +93,7 @@ class Post extends Component {
 
     return (
       <div>
-        <Header />
+        <Header hideNewPost={true} />
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>
@@ -79,9 +104,21 @@ class Post extends Component {
               )}
             </Grid>
             <Grid item xs={12} sm={10}>
-              {postIsFetching ? loading : <PostDetails content={postItems} />}
+              {postIsFetching ? (
+                loading
+              ) : (
+                <PostDetails
+                  content={postItems}
+                  handleUpVote={() =>
+                    app.handleVotePost(postItems.id, 'upVote')
+                  }
+                  handleDownVote={() =>
+                    app.handleVotePost(postItems.id, 'downVote')
+                  }
+                />
+              )}
               {commentsIsFetching ? loading : comments}
-              <CommentForm />
+              <CommentForm parentId={id} />
             </Grid>
           </Grid>
         </main>

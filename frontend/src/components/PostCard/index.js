@@ -23,14 +23,18 @@ const styles = theme => ({
 });
 
 function PostCard(props) {
-  const { classes, content, actions } = props;
+  const { classes, content, actions, handleUpVote, handleDownVote } = props;
 
   return (
     <Paper className={classes.root} elevation={4}>
       <Grid container>
         <Grid item xs={12} sm={1}>
           <center>
-            <Voter score={content.voteScore} />
+            <Voter
+              score={content.voteScore}
+              handleUpVote={handleUpVote}
+              handleDownVote={handleDownVote}
+            />
           </center>
         </Grid>
         <Grid item xs={12} sm={9}>

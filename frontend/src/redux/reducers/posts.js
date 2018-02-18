@@ -3,7 +3,10 @@ import {
   POSTS_REQUEST_SUCCESSFUL,
   POST_REQUEST,
   POST_REQUEST_SUCCESSFUL,
+  POST_VOTE,
   COMMENTS_REQUEST,
+  COMMENT_ADD,
+  COMMENT_VOTE,
   COMMENTS_REQUEST_SUCCESSFUL,
   COMMENT_DELETE
 } from 'redux/actions/posts';
@@ -26,6 +29,21 @@ export const posts = (state = postsInitialState, action) => {
         postsIsFetching: false,
         postsItems: action.posts,
         postsLastUpdated: action.receivedAt
+      });
+    case POST_VOTE:
+      const indexToUpdate = state.postsItems.findIndex(item => {
+        return item.id === action.id;
+      });
+      return (state = {
+        ...state,
+        postsItems: [
+          ...state.postsItems.slice(0, indexToUpdate),
+          (state.postsItems[indexToUpdate] = {
+            ...state.postsItems[indexToUpdate],
+            voteScore: action.json.voteScore
+          }),
+          ...state.postsItems.slice(indexToUpdate + 1)
+        ]
       });
     default:
       return state;
@@ -51,6 +69,10 @@ export const post = (state = postInitialState, action) => {
         postItems: action.posts,
         postLastUpdated: action.receivedAt
       });
+    case POST_VOTE:
+      return (state = {
+        postItems: action.json
+      });
     default:
       return state;
   }
@@ -75,14 +97,21 @@ export const comments = (state = commentsInitialState, action) => {
         commentsItems: action.comments,
         commentsLastUpdated: action.receivedAt
       });
-    case COMMENT_DELETE:
-      const indexToDelete = state.commentsItems.findIndex(item => {
-        return item.id === action.id;
-      });
-      console.log(indexToDelete);
-
+    case COMMENT_ADD:
       return (state = {
-        ...state
+        ...state,
+        commentsItems: state.commentsItems.concat(action.json)
+      });
+    case COMMENT_VOTE:
+      return (state = {
+        ...state,
+        commentsItems: { ...state.commentsItems, [action.index]: action.json }
+      });
+    case COMMENT_DELETE:
+      state.commentsItems.splice(action.index, 1);
+      return (state = {
+        ...state,
+        commentsItems: [...state.commentsItems]
       });
     default:
       return state;

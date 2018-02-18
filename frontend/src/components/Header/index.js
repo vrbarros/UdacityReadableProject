@@ -22,7 +22,7 @@ const styles = {
 };
 
 function Header(props) {
-  const { classes, handlePostFormOpen } = props;
+  const { classes, handlePostFormOpen, hideNewPost } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -37,9 +37,13 @@ function Header(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Readable
           </Typography>
-          <Button color="inherit" onClick={handlePostFormOpen}>
-            New Post
-          </Button>
+          {!hideNewPost ? (
+            <Button color="inherit" onClick={handlePostFormOpen}>
+              New Post
+            </Button>
+          ) : (
+            false
+          )}
         </Toolbar>
       </AppBar>
     </div>
