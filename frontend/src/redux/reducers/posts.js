@@ -3,18 +3,13 @@ import {
   POSTS_REQUEST_SUCCESSFUL,
   POST_REQUEST,
   POST_REQUEST_SUCCESSFUL,
-  POST_VOTE,
-  COMMENTS_REQUEST,
-  COMMENT_ADD,
-  COMMENT_VOTE,
-  COMMENTS_REQUEST_SUCCESSFUL,
-  COMMENT_DELETE
+  POST_VOTE
 } from 'redux/actions/posts';
 
 const postsInitialState = {
-  postsIsFetching: false,
-  postsItems: [],
-  postsLastUpdated: Date.now()
+  isFetching: false,
+  items: [],
+  lastUpdated: Date.now()
 };
 
 export const posts = (state = postsInitialState, action) => {
@@ -22,27 +17,27 @@ export const posts = (state = postsInitialState, action) => {
     case POSTS_REQUEST:
       return (state = {
         ...state,
-        postsIsFetching: true
+        isFetching: true
       });
     case POSTS_REQUEST_SUCCESSFUL:
       return (state = {
-        postsIsFetching: false,
-        postsItems: action.posts,
-        postsLastUpdated: action.receivedAt
+        isFetching: false,
+        items: action.posts,
+        lastUpdated: action.receivedAt
       });
     case POST_VOTE:
-      const indexToUpdate = state.postsItems.findIndex(item => {
+      const indexToUpdate = state.items.findIndex(item => {
         return item.id === action.id;
       });
       return (state = {
         ...state,
-        postsItems: [
-          ...state.postsItems.slice(0, indexToUpdate),
-          (state.postsItems[indexToUpdate] = {
-            ...state.postsItems[indexToUpdate],
+        items: [
+          ...state.items.slice(0, indexToUpdate),
+          (state.items[indexToUpdate] = {
+            ...state.items[indexToUpdate],
             voteScore: action.json.voteScore
           }),
-          ...state.postsItems.slice(indexToUpdate + 1)
+          ...state.items.slice(indexToUpdate + 1)
         ]
       });
     default:
@@ -51,9 +46,9 @@ export const posts = (state = postsInitialState, action) => {
 };
 
 const postInitialState = {
-  postIsFetching: false,
-  postItems: {},
-  postLastUpdated: Date.now()
+  isFetching: false,
+  item: {},
+  lastUpdated: Date.now()
 };
 
 export const post = (state = postInitialState, action) => {
@@ -61,57 +56,17 @@ export const post = (state = postInitialState, action) => {
     case POST_REQUEST:
       return (state = {
         ...state,
-        postIsFetching: true
+        isFetching: true
       });
     case POST_REQUEST_SUCCESSFUL:
       return (state = {
-        postIsFetching: false,
-        postItems: action.posts,
-        postLastUpdated: action.receivedAt
+        isFetching: false,
+        item: action.posts,
+        lastUpdated: action.receivedAt
       });
     case POST_VOTE:
       return (state = {
-        postItems: action.json
-      });
-    default:
-      return state;
-  }
-};
-
-const commentsInitialState = {
-  commentsIsFetching: false,
-  commentsItems: {},
-  commentsLastUpdated: Date.now()
-};
-
-export const comments = (state = commentsInitialState, action) => {
-  switch (action.type) {
-    case COMMENTS_REQUEST:
-      return (state = {
-        ...state,
-        commentsIsFetching: true
-      });
-    case COMMENTS_REQUEST_SUCCESSFUL:
-      return (state = {
-        commentsIsFetching: false,
-        commentsItems: action.comments,
-        commentsLastUpdated: action.receivedAt
-      });
-    case COMMENT_ADD:
-      return (state = {
-        ...state,
-        commentsItems: state.commentsItems.concat(action.json)
-      });
-    case COMMENT_VOTE:
-      return (state = {
-        ...state,
-        commentsItems: { ...state.commentsItems, [action.index]: action.json }
-      });
-    case COMMENT_DELETE:
-      state.commentsItems.splice(action.index, 1);
-      return (state = {
-        ...state,
-        commentsItems: [...state.commentsItems]
+        item: action.json
       });
     default:
       return state;

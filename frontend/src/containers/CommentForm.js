@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 import Send from 'material-ui-icons/Send';
 import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
-import { insertingComment } from 'redux/actions/posts';
+import { insertingComment } from 'redux/actions/comments';
 
 const uuidv1 = require('uuid/v1');
 

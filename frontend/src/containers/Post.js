@@ -7,13 +7,12 @@ import CommentCard from 'components/CommentCard';
 import CommentForm from 'containers/CommentForm';
 import CommentActions from 'components/CommentActions';
 import { connect } from 'react-redux';
+import { fetchPost, votingPost } from 'redux/actions/posts';
 import {
-  fetchPost,
   fetchComments,
   removingComment,
-  votingComment,
-  votingPost
-} from 'redux/actions/posts';
+  votingComment
+} from 'redux/actions/comments';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
@@ -49,17 +48,20 @@ class Post extends Component {
   }
 
   render() {
-    const { postIsFetching, postItems } = this.props.post;
-    const { categoriesIsFetching, categoriesItems } = this.props.categories;
-    const { commentsIsFetching, commentsItems } = this.props.comments;
+    const post_isFetching = this.props.post.isFetching;
+    const post_item = this.props.post.item;
+    const categories_isFetching = this.props.categories.isFetching;
+    const categories_items = this.props.categories.items;
+    const comments_isFetching = this.props.comments.isFetching;
+    const comments_items = this.props.comments.items;
     const { id } = this.props.match.params;
 
     let comments;
 
     const app = this;
 
-    if (!commentsIsFetching) {
-      comments = Object.entries(commentsItems).map(function([key, item]) {
+    if (!comments_isFetching) {
+      comments = Object.entries(comments_items).map(function([key, item]) {
         let actions = (
           <CommentActions
             editVisible={true}
@@ -97,27 +99,27 @@ class Post extends Component {
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>
-              {categoriesIsFetching ? (
+              {categories_isFetching ? (
                 loading
               ) : (
-                <CategoryList items={categoriesItems} />
+                <CategoryList items={categories_items} />
               )}
             </Grid>
             <Grid item xs={12} sm={10}>
-              {postIsFetching ? (
+              {post_isFetching ? (
                 loading
               ) : (
                 <PostDetails
-                  content={postItems}
+                  content={post_item}
                   handleUpVote={() =>
-                    app.handleVotePost(postItems.id, 'upVote')
+                    app.handleVotePost(post_item.id, 'upVote')
                   }
                   handleDownVote={() =>
-                    app.handleVotePost(postItems.id, 'downVote')
+                    app.handleVotePost(post_item.id, 'downVote')
                   }
                 />
               )}
-              {commentsIsFetching ? loading : comments}
+              {comments_isFetching ? loading : comments}
               <CommentForm parentId={id} />
             </Grid>
           </Grid>

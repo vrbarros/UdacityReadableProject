@@ -42,16 +42,18 @@ class Page extends Component {
 
   render() {
     const { category } = this.props.match.params;
-    const { postsIsFetching, postsItems } = this.props.posts;
-    const { categoriesIsFetching, categoriesItems } = this.props.categories;
+    const posts_isFetching = this.props.posts.isFetching;
+    const posts_items = this.props.posts.items;
+    const categories_isFetching = this.props.categories.isFetching;
+    const categories_items = this.props.categories.items;
     const { postForm } = this.state;
 
     const app = this;
 
-    let posts = postsItems;
+    let posts = posts_items;
 
     if (posts) {
-      posts = postsItems.map(function(value, i) {
+      posts = posts_items.map(function(value, i) {
         let actions = (
           <PostActions
             viewVisible={true}
@@ -104,17 +106,17 @@ class Page extends Component {
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>
-              {categoriesIsFetching ? (
+              {categories_isFetching ? (
                 loading
               ) : (
-                <CategoryList items={categoriesItems} />
+                <CategoryList items={categories_items} />
               )}
             </Grid>
             <Grid item xs={12} sm={10}>
               <center>
                 <SortSelect defaultValue="vote" />
               </center>
-              {postsIsFetching ? loading : posts}
+              {posts_isFetching ? loading : posts}
             </Grid>
           </Grid>
         </main>

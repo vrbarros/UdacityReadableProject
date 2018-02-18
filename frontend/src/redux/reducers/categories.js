@@ -4,9 +4,9 @@ import {
 } from 'redux/actions/categories';
 
 const initialState = {
-  categoriesIsFetching: false,
-  categoriesItems: [],
-  categoriesLastUpdated: Date.now()
+  isFetching: false,
+  items: [],
+  lastUpdate: Date.now()
 };
 
 const categories = (state = initialState, action) => {
@@ -14,13 +14,13 @@ const categories = (state = initialState, action) => {
     case CATEGORIES_REQUEST:
       return (state = {
         ...state,
-        categoriesIsFetching: true
+        isFetching: true
       });
     case CATEGORIES_REQUEST_SUCCESSFUL:
       return (state = {
-        categoriesIsFetching: false,
-        categoriesItems: action.categories,
-        categoriesLastUpdated: action.receivedAt
+        isFetching: false,
+        items: action.categories,
+        lastUpdate: action.receivedAt
       });
     default:
       return state;

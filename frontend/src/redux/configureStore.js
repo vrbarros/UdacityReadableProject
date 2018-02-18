@@ -2,7 +2,8 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import { posts, post, comments } from 'redux/reducers/posts';
+import { posts, post } from 'redux/reducers/posts';
+import { comments } from 'redux/reducers/comments';
 import categories from 'redux/reducers/categories';
 
 export const history = createHistory();
