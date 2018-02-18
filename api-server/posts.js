@@ -24,6 +24,39 @@ const defaultData = {
     voteScore: -5,
     deleted: false,
     commentCount: 0
+  },
+  "6ni6ok3ym7mf1p33234lnez": {
+    id: '6ni6ok3ym7mf1p33234lnez',
+    timestamp: 1468479767190,
+    title: 'Learn Redux in 10 minutes!',
+    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
+    author: 'thingone',
+    category: 'redux',
+    voteScore: -5,
+    deleted: false,
+    commentCount: 0
+  },
+  "6ni126ok3ym7mf1p33lnez": {
+    id: '6ni126ok3ym7mf1p33lnez',
+    timestamp: 1468479767190,
+    title: 'Learn Redux in 10 minutes!',
+    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
+    author: 'thingone',
+    category: 'redux',
+    voteScore: -5,
+    deleted: false,
+    commentCount: 0
+  },
+  "6ni6ok3ym7mf1p451233lnez": {
+    id: '6ni6ok3ym7mf1p451233lnez',
+    timestamp: 1468479767190,
+    title: 'Learn Redux in 10 minutes!',
+    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
+    author: 'thingone',
+    category: 'redux',
+    voteScore: -5,
+    deleted: false,
+    commentCount: 0
   }
 }
 

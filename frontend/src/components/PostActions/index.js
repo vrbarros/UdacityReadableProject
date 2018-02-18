@@ -17,7 +17,8 @@ class PostActions extends React.Component {
       viewHref,
       viewVisible,
       editVisible,
-      deleteVisible
+      deleteVisible,
+      handleDelete
     } = this.props;
 
     return (
@@ -39,7 +40,12 @@ class PostActions extends React.Component {
           </Button>
         )}
         {deleteVisible && (
-          <Button variant="raised" color="secondary" className={classes.button}>
+          <Button
+            variant="raised"
+            color="secondary"
+            onClick={handleDelete}
+            className={classes.button}
+          >
             Delete
           </Button>
         )}

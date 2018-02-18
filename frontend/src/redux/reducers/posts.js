@@ -3,7 +3,8 @@ import {
   POSTS_REQUEST_SUCCESSFUL,
   POST_REQUEST,
   POST_REQUEST_SUCCESSFUL,
-  POST_VOTE
+  POST_VOTE,
+  POST_DELETE
 } from 'redux/actions/posts';
 
 const postsInitialState = {
@@ -40,6 +41,15 @@ export const posts = (state = postsInitialState, action) => {
           ...state.items.slice(indexToUpdate + 1)
         ]
       });
+    case POST_DELETE:
+      if (action.index >= 0) {
+        state.items.splice(action.index, 1);
+      }
+
+      return (state = {
+        ...state,
+        items: [...state.items]
+      });
     default:
       return state;
   }
@@ -48,6 +58,7 @@ export const posts = (state = postsInitialState, action) => {
 const postInitialState = {
   isFetching: false,
   item: {},
+  empty: true,
   lastUpdated: Date.now()
 };
 
@@ -62,11 +73,18 @@ export const post = (state = postInitialState, action) => {
       return (state = {
         isFetching: false,
         item: action.posts,
-        lastUpdated: action.receivedAt
+        lastUpdated: action.receivedAt,
+        empty: false
       });
     case POST_VOTE:
       return (state = {
         item: action.json
+      });
+    case POST_DELETE:
+      return (state = {
+        ...state,
+        item: {},
+        empty: true
       });
     default:
       return state;

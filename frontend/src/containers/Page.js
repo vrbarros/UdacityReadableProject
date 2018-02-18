@@ -7,7 +7,7 @@ import SortSelect from 'components/SortSelect';
 import PostForm from 'components/PostForm';
 import PostActions from 'components/PostActions';
 import { connect } from 'react-redux';
-import { fetchPosts, votingPost } from 'redux/actions/posts';
+import { fetchPosts, votingPost, removingPost } from 'redux/actions/posts';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
@@ -19,6 +19,7 @@ class Page extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleVotePost = this.handleVotePost.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +31,11 @@ class Page extends Component {
   handleVotePost(id, option) {
     const { dispatch } = this.props;
     return dispatch(votingPost(id, option));
+  }
+
+  handleDeletePost(index, id) {
+    const { dispatch } = this.props;
+    return dispatch(removingPost(index, id));
   }
 
   handlePostFormOpen = () => {
@@ -59,6 +65,7 @@ class Page extends Component {
             viewVisible={true}
             editVisible={true}
             deleteVisible={true}
+            handleDelete={() => app.handleDeletePost(i, value.id)}
             viewHref={'/' + value.category + '/' + value.id}
           />
         );

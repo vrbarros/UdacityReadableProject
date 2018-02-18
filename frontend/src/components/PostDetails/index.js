@@ -26,7 +26,13 @@ const styles = theme => ({
 });
 
 function PostDetails(props) {
-  const { classes, content, handleUpVote, handleDownVote } = props;
+  const {
+    classes,
+    content,
+    handleUpVote,
+    handleDownVote,
+    handleDelete
+  } = props;
   const { timestamp, title, author, category, body, voteScore } = content;
 
   return (
@@ -37,6 +43,7 @@ function PostDetails(props) {
             viewVisible={false}
             editVisible={true}
             deleteVisible={true}
+            handleDelete={handleDelete}
           />
           <Typography variant="caption">
             <Grid container alignItems="center" alignContent="center">

@@ -11,6 +11,7 @@ export const POSTS_REQUEST_SUCCESSFUL = 'POSTS_REQUEST_SUCCESSFUL';
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_REQUEST_SUCCESSFUL = 'POST_REQUEST_SUCCESSFUL';
 export const POST_VOTE = 'POST_VOTE';
+export const POST_DELETE = 'POST_DELETE';
 
 // Posts
 
@@ -52,6 +53,15 @@ export const votePost = (id, json) => {
   };
 };
 
+export const deletePost = (index, id, json) => {
+  return {
+    type: POST_DELETE,
+    id,
+    index,
+    json
+  };
+};
+
 /*
 
 PROMISES
@@ -79,5 +89,11 @@ export function fetchPost(id) {
 export function votingPost(id, vote) {
   return dispatch => {
     api.votePost(id, vote).then(json => dispatch(votePost(id, json)));
+  };
+}
+
+export function removingPost(index, id) {
+  return dispatch => {
+    api.deletePost(id).then(json => dispatch(deletePost(index, id, json)));
   };
 }

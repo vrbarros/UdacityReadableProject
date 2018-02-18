@@ -7,7 +7,7 @@ import CommentCard from 'components/CommentCard';
 import CommentForm from 'containers/CommentForm';
 import CommentActions from 'components/CommentActions';
 import { connect } from 'react-redux';
-import { fetchPost, votingPost } from 'redux/actions/posts';
+import { fetchPost, votingPost, removingPost } from 'redux/actions/posts';
 import {
   fetchComments,
   removingComment,
@@ -15,13 +15,16 @@ import {
 } from 'redux/actions/comments';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
+import { Redirect } from 'react-router-dom';
 
 class Post extends Component {
   constructor(props, context) {
     super(props, context);
-    this.deleteComments = this.handleDeleteComment.bind(this);
+
     this.handleVotePost = this.handleVotePost.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
     this.handleVoteComment = this.handleVoteComment.bind(this);
+    this.deleteComments = this.handleDeleteComment.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -32,14 +35,14 @@ class Post extends Component {
     dispatch(fetchComments(id));
   }
 
-  handleDeleteComment(index, id) {
-    const { dispatch } = this.props;
-    return dispatch(removingComment(index, id));
-  }
-
   handleVotePost(id, option) {
     const { dispatch } = this.props;
     return dispatch(votingPost(id, option));
+  }
+
+  handleDeletePost(id) {
+    const { dispatch } = this.props;
+    return dispatch(removingPost(null, id));
   }
 
   handleVoteComment(index, comment, option) {
@@ -47,9 +50,15 @@ class Post extends Component {
     return dispatch(votingComment(index, comment.id, option));
   }
 
+  handleDeleteComment(index, id) {
+    const { dispatch } = this.props;
+    return dispatch(removingComment(index, id));
+  }
+
   render() {
     const post_isFetching = this.props.post.isFetching;
     const post_item = this.props.post.item;
+    const post_empty = this.props.post.empty;
     const categories_isFetching = this.props.categories.isFetching;
     const categories_items = this.props.categories.items;
     const comments_isFetching = this.props.comments.isFetching;
@@ -95,6 +104,7 @@ class Post extends Component {
 
     return (
       <div>
+        {post_empty ? <Redirect to="/" /> : false}
         <Header hideNewPost={true} />
         <main>
           <Grid container spacing={0}>
@@ -117,6 +127,7 @@ class Post extends Component {
                   handleDownVote={() =>
                     app.handleVotePost(post_item.id, 'downVote')
                   }
+                  handleDelete={() => app.handleDeletePost(post_item.id)}
                 />
               )}
               {comments_isFetching ? loading : comments}
