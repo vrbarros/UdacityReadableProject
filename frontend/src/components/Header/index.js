@@ -7,6 +7,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Textsms from 'material-ui-icons/Textsms';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -22,7 +23,7 @@ const styles = {
 };
 
 function Header(props) {
-  const { classes, handlePostFormOpen, hideNewPost } = props;
+  const { classes } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -37,13 +38,9 @@ function Header(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Readable
           </Typography>
-          {!hideNewPost ? (
-            <Button color="inherit" onClick={handlePostFormOpen}>
-              New Post
-            </Button>
-          ) : (
-            false
-          )}
+          <Button color="inherit" component={Link} to="/new">
+            New Post
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

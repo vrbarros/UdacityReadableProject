@@ -16,6 +16,7 @@ class PostActions extends React.Component {
       classes,
       viewHref,
       viewVisible,
+      editHref,
       editVisible,
       deleteVisible,
       handleDelete
@@ -35,7 +36,13 @@ class PostActions extends React.Component {
           </Button>
         )}
         {editVisible && (
-          <Button variant="raised" color="primary" className={classes.button}>
+          <Button
+            variant="raised"
+            color="primary"
+            component={Link}
+            to={editHref}
+            className={classes.button}
+          >
             Edit
           </Button>
         )}

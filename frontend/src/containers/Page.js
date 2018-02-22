@@ -4,7 +4,6 @@ import Grid from 'material-ui/Grid';
 import CategoryList from 'components/CategoryList';
 import PostCard from 'components/PostCard';
 import SortSelect from 'components/SortSelect';
-import PostForm from 'components/PostForm';
 import PostActions from 'components/PostActions';
 import { connect } from 'react-redux';
 import { fetchPosts, votingPost, removingPost } from 'redux/actions/posts';
@@ -12,16 +11,11 @@ import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
 class Page extends Component {
-  state = {
-    postForm: false
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleVotePost = this.handleVotePost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
   }
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCategories());
@@ -38,21 +32,12 @@ class Page extends Component {
     return dispatch(removingPost(index, id));
   }
 
-  handlePostFormOpen = () => {
-    this.setState({ postForm: true });
-  };
-
-  handlePostFormClose = () => {
-    this.setState({ postForm: false });
-  };
-
   render() {
     const { category } = this.props.match.params;
     const posts_isFetching = this.props.posts.isFetching;
     const posts_items = this.props.posts.items;
     const categories_isFetching = this.props.categories.isFetching;
     const categories_items = this.props.categories.items;
-    const { postForm } = this.state;
 
     const app = this;
 
@@ -64,6 +49,7 @@ class Page extends Component {
           <PostActions
             viewVisible={true}
             editVisible={true}
+            editHref={'/new/' + value.id}
             deleteVisible={true}
             handleDelete={() => app.handleDeletePost(i, value.id)}
             viewHref={'/' + value.category + '/' + value.id}
@@ -104,12 +90,7 @@ class Page extends Component {
 
     return (
       <div>
-        <Header handlePostFormOpen={this.handlePostFormOpen} />
-        <PostForm
-          open={postForm}
-          onClose={this.handlePostFormClose}
-          title="New post"
-        />
+        <Header />
         <main>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={2}>

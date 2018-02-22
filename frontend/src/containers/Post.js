@@ -58,7 +58,6 @@ class Post extends Component {
   render() {
     const post_isFetching = this.props.post.isFetching;
     const post_item = this.props.post.item;
-    const post_empty = this.props.post.empty;
     const categories_isFetching = this.props.categories.isFetching;
     const categories_items = this.props.categories.items;
     const comments_isFetching = this.props.comments.isFetching;
@@ -104,7 +103,6 @@ class Post extends Component {
 
     return (
       <div>
-        {post_empty ? <Redirect to="/" /> : false}
         <Header hideNewPost={true} />
         <main>
           <Grid container spacing={0}>
@@ -134,6 +132,7 @@ class Post extends Component {
               <CommentForm parentId={id} />
             </Grid>
           </Grid>
+          {post_item.deleted ? <Redirect to="/" /> : false}
         </main>
       </div>
     );

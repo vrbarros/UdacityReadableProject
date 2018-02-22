@@ -9,7 +9,9 @@ import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
 import { insertingComment } from 'redux/actions/comments';
 
-const uuidv1 = require('uuid/v1');
+const uuidv4 = require('uuid/v4');
+
+let id = uuidv4();
 
 const styles = theme => ({
   fields: {
@@ -55,18 +57,16 @@ class CommentForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
     const { dispatch } = this.props;
-
     this.setState({
-      id: uuidv1(),
+      id: id,
       timestamp: Date.now()
     });
-
     dispatch(insertingComment(this.state));
-
     this.setState({
-      body: ''
+      id: '',
+      body: '',
+      author: ''
     });
   }
 

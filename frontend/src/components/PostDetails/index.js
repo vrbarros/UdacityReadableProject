@@ -33,7 +33,7 @@ function PostDetails(props) {
     handleDownVote,
     handleDelete
   } = props;
-  const { timestamp, title, author, category, body, voteScore } = content;
+  const { timestamp, title, author, category, body, voteScore, id } = content;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -42,6 +42,7 @@ function PostDetails(props) {
           <PostActions
             viewVisible={false}
             editVisible={true}
+            editHref={'/new/' + id}
             deleteVisible={true}
             handleDelete={handleDelete}
           />

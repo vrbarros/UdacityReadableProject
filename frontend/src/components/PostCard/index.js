@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import PersonPin from 'material-ui-icons/PersonPin';
 import DateRange from 'material-ui-icons/DateRange';
+import Comment from 'material-ui-icons/Comment';
 import Label from 'material-ui-icons/Label';
 import Grid from 'material-ui/Grid';
 import Voter from 'components/Voter';
@@ -65,6 +66,10 @@ function PostCard(props) {
                 <Label />
               </Grid>
               <Grid item>{content.category}</Grid>
+              <Grid item>
+                <Comment />
+              </Grid>
+              <Grid item>{content.commentCount}</Grid>
             </Grid>
           </Typography>
         </Grid>
