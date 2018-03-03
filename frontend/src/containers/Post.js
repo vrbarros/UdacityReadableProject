@@ -103,6 +103,7 @@ class Post extends Component {
 
     return (
       <div>
+        {post_item.error ? <Redirect to="/" /> : false}
         <Header hideNewPost={true} />
         <main>
           <Grid container spacing={0}>

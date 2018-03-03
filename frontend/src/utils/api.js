@@ -28,7 +28,12 @@ export const fetchPosts = () =>
 export const fetchPost = id =>
   fetch(`${API_URL}posts/${id}`, {
     headers: { Authorization: API_AUTHORIZATION }
-  }).then(data => data.json());
+  }).then(function(data) {
+    if (!data.ok) {
+      return { error: true };
+    }
+    return data.json();
+  });
 
 export const addPost = data =>
   fetch(`${API_URL}posts`, {
