@@ -62,7 +62,10 @@ class CommentForm extends React.Component {
       id: id,
       timestamp: Date.now()
     });
-    dispatch(insertingComment(this.state));
+    if (this.props.edit) {
+    } else {
+      dispatch(insertingComment(this.state));
+    }
     this.setState({
       id: '',
       body: '',
@@ -71,7 +74,7 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, edit } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit}>
