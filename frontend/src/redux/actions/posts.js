@@ -14,6 +14,7 @@ export const POST_VOTE = 'POST_VOTE';
 export const POST_ADD = 'POST_ADD';
 export const POST_UPDATE = 'POST_UPDATE';
 export const POST_DELETE = 'POST_DELETE';
+export const POSTS_SORT = 'POSTS_SORT';
 
 // Posts
 
@@ -76,6 +77,13 @@ export const deletePost = (index, id, json) => {
     id,
     index,
     json
+  };
+};
+
+export const sortPosts = sort => {
+  return {
+    type: POSTS_SORT,
+    sort
   };
 };
 

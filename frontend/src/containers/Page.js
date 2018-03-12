@@ -6,7 +6,12 @@ import PostCard from 'components/PostCard';
 import SortSelect from 'components/SortSelect';
 import PostActions from 'components/PostActions';
 import { connect } from 'react-redux';
-import { fetchPosts, votingPost, removingPost } from 'redux/actions/posts';
+import {
+  fetchPosts,
+  votingPost,
+  removingPost,
+  sortPosts
+} from 'redux/actions/posts';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
 
@@ -15,6 +20,7 @@ class Page extends Component {
     super(props, context);
     this.handleVotePost = this.handleVotePost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -32,18 +38,29 @@ class Page extends Component {
     return dispatch(removingPost(index, id));
   }
 
+  handleSort(sort) {
+    const { dispatch } = this.props;
+    return dispatch(sortPosts(sort));
+  }
+
   render() {
     const { category } = this.props.match.params;
     const posts_isFetching = this.props.posts.isFetching;
     const posts_items = this.props.posts.items;
     const categories_isFetching = this.props.categories.isFetching;
     const categories_items = this.props.categories.items;
+    const sort = this.props.posts.sort;
 
     const app = this;
 
     let posts = posts_items;
 
     if (posts) {
+      if (sort.order === 'asc') {
+        posts = posts.sort((a, b) => a[sort.value] - b[sort.value]);
+      } else {
+        posts = posts.sort((a, b) => b[sort.value] - a[sort.value]);
+      }
       posts = posts_items.map(function(value, i) {
         let actions = (
           <PostActions
@@ -102,7 +119,7 @@ class Page extends Component {
             </Grid>
             <Grid item xs={12} sm={10}>
               <center>
-                <SortSelect defaultValue="vote" />
+                <SortSelect sort={sort} sortFunc={app.handleSort} />
               </center>
               {posts_isFetching ? loading : posts}
             </Grid>

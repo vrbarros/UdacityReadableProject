@@ -6,13 +6,18 @@ import {
   POST_VOTE,
   POST_DELETE,
   POST_ADD,
-  POST_UPDATE
+  POST_UPDATE,
+  POSTS_SORT
 } from 'redux/actions/posts';
 
 const postsInitialState = {
   isFetching: false,
   items: [],
-  lastUpdated: Date.now()
+  lastUpdated: Date.now(),
+  sort: {
+    value: 'vote',
+    order: 'asc'
+  }
 };
 
 export const posts = (state = postsInitialState, action) => {
@@ -24,6 +29,7 @@ export const posts = (state = postsInitialState, action) => {
       });
     case POSTS_REQUEST_SUCCESSFUL:
       return (state = {
+        ...state,
         isFetching: false,
         items: action.posts,
         lastUpdated: action.receivedAt
@@ -58,6 +64,11 @@ export const posts = (state = postsInitialState, action) => {
       return (state = {
         ...state,
         items: [...state.items]
+      });
+    case POSTS_SORT:
+      return (state = {
+        ...state,
+        sort: action.sort
       });
     default:
       return state;

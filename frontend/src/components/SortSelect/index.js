@@ -4,9 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import { FormControl } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import Sort from 'material-ui-icons/Sort';
-import SortByAlpha from 'material-ui-icons/SortByAlpha';
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 
 const styles = theme => ({
   formControl: {
@@ -18,8 +16,28 @@ const styles = theme => ({
 });
 
 class SortSelect extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onValueChanged = this.onValueChanged.bind(this);
+    this.onSortChanged = this.onSortChanged.bind(this);
+  }
+
+  onValueChanged(event) {
+    this.props.sortFunc({
+      value: event.target.value,
+      order: this.props.sort.order
+    });
+  }
+
+  onSortChanged(event) {
+    this.props.sortFunc({
+      value: this.props.sort.value,
+      order: event.target.value
+    });
+  }
+
   render() {
-    const { classes, defaultValue } = this.props;
+    const { classes, sort } = this.props;
 
     return (
       <FormControl className={classes.formControl}>
@@ -28,16 +46,16 @@ class SortSelect extends React.Component {
             <Sort />
           </Grid>
           <Grid item xs>
-            <Select native value={defaultValue}>
-              <option value="vote">Vote Score</option>
-              <option value="datetime">Date and Time</option>
-              <option value="title">Title</option>
+            <Select native value={sort.value} onChange={this.onValueChanged}>
+              <option value="voteScore">Vote Score</option>
+              <option value="timestamp">Date and Time</option>
             </Select>
           </Grid>
           <Grid item>
-            <Button color="default" className={classes.button}>
-              <SortByAlpha />
-            </Button>
+            <Select native value={sort.order} onChange={this.onSortChanged}>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </Select>
           </Grid>
         </Grid>
       </FormControl>
@@ -47,7 +65,8 @@ class SortSelect extends React.Component {
 
 SortSelect.propTypes = {
   classes: PropTypes.object.isRequired,
-  defaultValue: PropTypes.string.isRequired
+  sort: PropTypes.object.isRequired,
+  sortFunc: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(SortSelect);
