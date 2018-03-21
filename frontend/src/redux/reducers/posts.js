@@ -60,7 +60,6 @@ export const posts = (state = postsInitialState, action) => {
       if (action.index >= 0) {
         state.items.splice(action.index, 1);
       }
-
       return (state = {
         ...state,
         items: [...state.items]
@@ -101,7 +100,9 @@ export const post = (state = postInitialState, action) => {
     case POST_DELETE:
       return (state = {
         ...state,
-        item: action.json
+        item: {
+          deleted: true
+        }
       });
     default:
       return state;

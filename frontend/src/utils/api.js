@@ -86,6 +86,13 @@ export const fetchComments = id =>
     .then(data => data.json())
     .then(data => data);
 
+export const fetchComment = id =>
+  fetch(`${API_URL}comments/${id}`, {
+    headers: { Authorization: API_AUTHORIZATION }
+  })
+    .then(data => data.json())
+    .then(data => data);
+
 export const addComment = data =>
   fetch(`${API_URL}comments`, {
     method: 'POST',

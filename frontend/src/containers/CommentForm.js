@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 import Send from 'material-ui-icons/Send';
 import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
-import { insertingComment } from 'redux/actions/comments';
+import { insertingComment, editingComment } from 'redux/actions/comments';
 
 const uuidv4 = require('uuid/v4');
 
@@ -35,16 +35,21 @@ class CommentForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      parentId: props.parentId,
-      body: props.body,
-      author: props.author
-    };
+    if (this.props.edit) {
+      this.state = {
+        ...props.edit
+      };
+    } else {
+      this.state = {
+        parentId: props.parentId,
+        body: props.body,
+        author: props.author
+      };
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -63,6 +68,7 @@ class CommentForm extends React.Component {
       timestamp: Date.now()
     });
     if (this.props.edit) {
+      dispatch(editingComment(this.state, this.props.index));
     } else {
       dispatch(insertingComment(this.state));
     }
@@ -74,47 +80,49 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes, edit } = this.props;
+    const { classes, visible } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <Paper className={classes.root} elevation={4}>
-          <Grid container spacing={0}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                name="author"
-                label="Author"
-                value={this.state.author}
-                className={classes.fields}
-                onChange={this.handleInputChange}
-                margin="normal"
-              />
-              <br />
-              <TextField
-                name="body"
-                label="Comment"
-                className={classes.fields}
-                value={this.state.body}
-                multiline
-                rows="12"
-                onChange={this.handleInputChange}
-                margin="normal"
-              />
-              <br />
-              <center>
-                <Button
-                  variant="raised"
-                  color="primary"
-                  className={classes.button}
-                  type="submit"
-                >
-                  <span>Send</span>
-                  <Send />
-                </Button>
-              </center>
+        {visible ? (
+          <Paper className={classes.root} elevation={4}>
+            <Grid container spacing={0}>
+              <Grid item xs={12} sm={12}>
+                <TextField
+                  name="author"
+                  label="Author"
+                  value={this.state.author}
+                  className={classes.fields}
+                  onChange={this.handleInputChange}
+                  margin="normal"
+                />
+                <br />
+                <TextField
+                  name="body"
+                  label="Comment"
+                  className={classes.fields}
+                  value={this.state.body}
+                  multiline
+                  rows="12"
+                  onChange={this.handleInputChange}
+                  margin="normal"
+                />
+                <br />
+                <center>
+                  <Button
+                    variant="raised"
+                    color="primary"
+                    className={classes.button}
+                    type="submit"
+                  >
+                    <span>Send</span>
+                    <Send />
+                  </Button>
+                </center>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        ) : null}
       </form>
     );
   }

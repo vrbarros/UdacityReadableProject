@@ -7,6 +7,7 @@ import PersonPin from 'material-ui-icons/PersonPin';
 import DateRange from 'material-ui-icons/DateRange';
 import Grid from 'material-ui/Grid';
 import Voter from 'components/Voter';
+import CommentForm from 'containers/CommentForm';
 
 const Timestamp = require('react-timestamp');
 
@@ -24,7 +25,15 @@ const styles = theme => ({
 });
 
 function CommentCard(props) {
-  const { classes, content, actions, handleUpVote, handleDownVote } = props;
+  const {
+    classes,
+    content,
+    actions,
+    handleUpVote,
+    handleDownVote,
+    edit,
+    key
+  } = props;
 
   return (
     <Paper className={classes.root} elevation={4}>
@@ -54,6 +63,11 @@ function CommentCard(props) {
             </Grid>
           </Typography>
           {actions}
+          {edit ? (
+            edit.id === content.id ? (
+              <CommentForm visible={true} edit={edit} index={key} />
+            ) : null
+          ) : null}
         </Grid>
         <Grid item xs={12} sm={1}>
           <center>

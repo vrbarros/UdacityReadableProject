@@ -11,7 +11,8 @@ import { fetchPost, votingPost, removingPost } from 'redux/actions/posts';
 import {
   fetchComments,
   removingComment,
-  votingComment
+  votingComment,
+  fetchComment
 } from 'redux/actions/comments';
 import { fetchCategories } from 'redux/actions/categories';
 import ReactLoading from 'react-loading';
@@ -24,6 +25,7 @@ class Post extends Component {
     this.handleVotePost = this.handleVotePost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
     this.handleVoteComment = this.handleVoteComment.bind(this);
+    this.handleEditComment = this.handleEditComment.bind(this);
     this.deleteComments = this.handleDeleteComment.bind(this);
   }
   componentDidMount() {
@@ -54,6 +56,10 @@ class Post extends Component {
     const { dispatch } = this.props;
     return dispatch(removingComment(index, id));
   }
+  handleEditComment(index, id) {
+    const { dispatch } = this.props;
+    return dispatch(fetchComment(id));
+  }
 
   render() {
     const post_isFetching = this.props.post.isFetching;
@@ -63,6 +69,7 @@ class Post extends Component {
     const comments_isFetching = this.props.comments.isFetching;
     const comments_items = this.props.comments.items;
     const { id } = this.props.match.params;
+    const { edit } = this.props.comments;
 
     let comments;
 
@@ -75,6 +82,7 @@ class Post extends Component {
             editVisible={true}
             deleteVisible={true}
             handleDelete={() => app.handleDeleteComment(key, item.id)}
+            handleEdit={() => app.handleEditComment(key, item.id)}
           />
         );
         let comment = (
@@ -82,6 +90,7 @@ class Post extends Component {
             key={key}
             content={item}
             actions={actions}
+            edit={edit}
             handleUpVote={() => app.handleVoteComment(key, item, 'upVote')}
             handleDownVote={() => app.handleVoteComment(key, item, 'downVote')}
           />
@@ -103,7 +112,6 @@ class Post extends Component {
 
     return (
       <div>
-        {post_item.error ? <Redirect to="/" /> : false}
         <Header hideNewPost={true} />
         <main>
           <Grid container spacing={0}>
@@ -130,10 +138,15 @@ class Post extends Component {
                 />
               )}
               {comments_isFetching ? loading : comments}
-              <CommentForm parentId={id} />
+              <CommentForm parentId={id} visible={true} />
             </Grid>
           </Grid>
-          {post_item.deleted ? <Redirect to="/" /> : false}
+          {!post_isFetching ? (
+            post_item.deleted ? (
+              <Redirect to="/" />
+            ) : null
+          ) : null}
+          {!post_isFetching ? !post_item.id ? <Redirect to="/" /> : null : null}
         </main>
       </div>
     );
