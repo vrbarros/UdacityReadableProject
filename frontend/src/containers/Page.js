@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import Header from 'components/Header';
-import Grid from 'material-ui/Grid';
-import CategoryList from 'components/CategoryList';
-import PostCard from 'components/PostCard';
-import SortSelect from 'components/SortSelect';
-import PostActions from 'components/PostActions';
-import { connect } from 'react-redux';
 import {
   fetchPosts,
-  votingPost,
   removingPost,
-  sortPosts
+  sortPosts,
+  votingPost
 } from 'redux/actions/posts';
-import { fetchCategories } from 'redux/actions/categories';
+
+import CategoryList from 'components/CategoryList';
+import Grid from 'material-ui/Grid';
+import Header from 'components/Header';
+import PostActions from 'components/PostActions';
+import PostCard from 'components/PostCard';
 import ReactLoading from 'react-loading';
+import SortSelect from 'components/SortSelect';
+import { connect } from 'react-redux';
+import { fetchCategories } from 'redux/actions/categories';
 
 class Page extends Component {
   constructor(props, context) {
@@ -69,7 +70,7 @@ class Page extends Component {
             editHref={'/new/' + value.id}
             deleteVisible={true}
             handleDelete={() => app.handleDeletePost(i, value.id)}
-            viewHref={'/' + value.category + '/' + value.id}
+            viewHref={'/category/' + value.category + '/' + value.id}
           />
         );
         let post = (

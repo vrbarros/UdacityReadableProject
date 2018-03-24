@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import Header from 'components/Header';
-import Grid from 'material-ui/Grid';
-import CategoryList from 'components/CategoryList';
-import PostDetails from 'components/PostDetails';
-import CommentCard from 'components/CommentCard';
-import CommentForm from 'containers/CommentForm';
-import CommentActions from 'components/CommentActions';
-import { connect } from 'react-redux';
-import { fetchPost, votingPost, removingPost } from 'redux/actions/posts';
 import {
+  fetchComment,
   fetchComments,
   removingComment,
-  votingComment,
-  fetchComment
+  votingComment
 } from 'redux/actions/comments';
-import { fetchCategories } from 'redux/actions/categories';
+import { fetchPost, removingPost, votingPost } from 'redux/actions/posts';
+
+import CategoryList from 'components/CategoryList';
+import CommentActions from 'components/CommentActions';
+import CommentCard from 'components/CommentCard';
+import CommentForm from 'containers/CommentForm';
+import Grid from 'material-ui/Grid';
+import Header from 'components/Header';
+import PostDetails from 'components/PostDetails';
 import ReactLoading from 'react-loading';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchCategories } from 'redux/actions/categories';
 
 class Post extends Component {
   constructor(props, context) {
@@ -88,6 +89,7 @@ class Post extends Component {
         let comment = (
           <CommentCard
             key={key}
+            index={key}
             content={item}
             actions={actions}
             edit={edit}

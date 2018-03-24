@@ -39,11 +39,12 @@ export const addComment = json => {
   };
 };
 
-export const updateComment = (id, json) => {
+export const updateComment = (id, json, index) => {
   return {
     type: COMMENT_UPDATE,
     json,
-    id
+    id,
+    index
   };
 };
 

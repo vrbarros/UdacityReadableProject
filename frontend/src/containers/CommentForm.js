@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import TextField from 'material-ui/TextField';
+import { editingComment, insertingComment } from 'redux/actions/comments';
+
 import Button from 'material-ui/Button';
-import Send from 'material-ui-icons/Send';
+import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Send from 'material-ui-icons/Send';
+import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
-import { insertingComment, editingComment } from 'redux/actions/comments';
+import { withStyles } from 'material-ui/styles';
 
 const uuidv4 = require('uuid/v4');
 

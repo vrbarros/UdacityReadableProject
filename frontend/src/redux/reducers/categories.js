@@ -12,16 +12,16 @@ const initialState = {
 const categories = (state = initialState, action) => {
   switch (action.type) {
     case CATEGORIES_REQUEST:
-      return (state = {
+      return {
         ...state,
         isFetching: true
-      });
+      };
     case CATEGORIES_REQUEST_SUCCESSFUL:
-      return (state = {
+      return {
         isFetching: false,
         items: action.categories,
         lastUpdate: action.receivedAt
-      });
+      };
     default:
       return state;
   }

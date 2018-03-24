@@ -1,9 +1,10 @@
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+
+import Home from 'material-ui-icons/Home';
+import Label from 'material-ui-icons/Label';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Label from 'material-ui-icons/Label';
-import Home from 'material-ui-icons/Home';
-import { Link } from 'react-router-dom';
 
 const styles = theme => ({});
 
@@ -14,7 +15,12 @@ function CategoryList(props) {
   if (items.categories) {
     categories = items.categories.map(function(item, i) {
       return (
-        <ListItem component={Link} to={'/' + item.path} key={'cat-' + i} button>
+        <ListItem
+          component={Link}
+          to={'/category/' + item.path}
+          key={'cat-' + i}
+          button
+        >
           <ListItemIcon>
             <Label />
           </ListItemIcon>

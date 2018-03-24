@@ -1,12 +1,12 @@
 import {
   COMMENTS_REQUEST,
   COMMENTS_REQUEST_SUCCESSFUL,
+  COMMENT_ADD,
+  COMMENT_DELETE,
   COMMENT_REQUEST,
   COMMENT_REQUEST_SUCCESSFUL,
-  COMMENT_ADD,
-  COMMENT_VOTE,
-  COMMENT_DELETE,
-  COMMENT_UPDATE
+  COMMENT_UPDATE,
+  COMMENT_VOTE
 } from 'redux/actions/comments';
 
 const commentsInitialState = {
@@ -18,51 +18,54 @@ const commentsInitialState = {
 export const comments = (state = commentsInitialState, action) => {
   switch (action.type) {
     case COMMENTS_REQUEST:
-      return (state = {
+      return {
         ...state,
         isFetching: true
-      });
+      };
     case COMMENTS_REQUEST_SUCCESSFUL:
-      return (state = {
+      return {
         isFetching: false,
         items: action.comments
-      });
+      };
     case COMMENT_REQUEST:
-      return (state = {
+      return {
         ...state,
         isFetching: true
-      });
+      };
     case COMMENT_REQUEST_SUCCESSFUL:
-      return (state = {
+      return {
         ...state,
         isFetching: false,
         edit: action.comment
-      });
+      };
     case COMMENT_ADD:
-      return (state = {
+      return {
         ...state,
-        items: state.items.concat(action.json)
-      });
+        items: {
+          ...state.items,
+          [action.index]: action.json
+        }
+      };
     case COMMENT_UPDATE:
-      return (state = {
+      return {
         ...state,
         items: {
           ...state.items,
           [action.index]: action.json
         },
         edit: {}
-      });
+      };
     case COMMENT_VOTE:
-      return (state = {
+      return {
         ...state,
         items: { ...state.items, [action.index]: action.json }
-      });
+      };
     case COMMENT_DELETE:
       state.items.splice(action.index, 1);
-      return (state = {
+      return {
         ...state,
         items: [...state.items]
-      });
+      };
     default:
       return state;
   }

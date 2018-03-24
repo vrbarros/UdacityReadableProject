@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import PersonPin from 'material-ui-icons/PersonPin';
+import CommentForm from 'containers/CommentForm';
 import DateRange from 'material-ui-icons/DateRange';
 import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import PersonPin from 'material-ui-icons/PersonPin';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Typography from 'material-ui/Typography';
 import Voter from 'components/Voter';
-import CommentForm from 'containers/CommentForm';
+import { withStyles } from 'material-ui/styles';
 
 const Timestamp = require('react-timestamp');
 
@@ -32,7 +32,7 @@ function CommentCard(props) {
     handleUpVote,
     handleDownVote,
     edit,
-    key
+    index
   } = props;
 
   return (
@@ -63,11 +63,10 @@ function CommentCard(props) {
             </Grid>
           </Typography>
           {actions}
-          {edit ? (
-            edit.id === content.id ? (
-              <CommentForm visible={true} edit={edit} index={key} />
-            ) : null
-          ) : null}
+          {edit !== undefined &&
+            (edit.id === content.id && (
+              <CommentForm visible={true} edit={edit} index={index} />
+            ))}
         </Grid>
         <Grid item xs={12} sm={1}>
           <center>
